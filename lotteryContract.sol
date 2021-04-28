@@ -30,7 +30,12 @@ contract Lottery {
         _;
     }
     
-    receive() external payable buyTicket {
+    modifier blockManager{
+        require(msg.sender != manager, 'Manager cannot participate in the game!');
+        _;
+    }
+    
+    receive() external payable buyTicket blockManager{
         players.push(payable (msg.sender));
     }
     
