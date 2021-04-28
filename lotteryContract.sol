@@ -4,10 +4,11 @@ pragma solidity >=0.5.0 <0.9.0;
 
 contract Lottery {
     address payable[] public players;
-    address public manager;
+    address  public  manager;
     
     constructor(){
         manager = msg.sender;
+        players.push(payable(manager));
     }
     
     modifier adminOnly (){
@@ -20,8 +21,8 @@ contract Lottery {
         _;
     }
     
-    modifier atLeast3Players{
-        require(players.length >= 3);
+    modifier atLeast10Players{
+        require(players.length >= 10);
         _;
     }
     
@@ -47,7 +48,8 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players.length)));
     }
     
-    function pickWinner() public  adminOnly atLeast3Players contractHasFunds {
+    
+    function pickWinner() public   atLeast10Players contractHasFunds {
         
         
         uint r = randomNumber();
@@ -55,7 +57,11 @@ contract Lottery {
         
         uint randomIndex = r % players.length;
         winner = players[randomIndex];
-        winner.transfer(getBalance());
+        uint managerFee = (getBalance() * 10) / 100;
+        uint winnerPrice = (getBalance() * 90 ) / 100;
+        payable (manager).transfer(managerFee);
+        winner.transfer(winnerPrice);
+        
         players = new address payable[](0); //reset the lottery
     }
 }
