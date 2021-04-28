@@ -14,3 +14,7 @@ Transaction Hash
 - There is a manager (The account that deploys and controls the contract)
 - At some point, if there are at least 10 players, anyone can pick a random winner from the players list. Only the manager is allowed to see the contract balance and to randomly select the winner.
 - the contract will transfer the entire balance to the winner's address, the manager will also receive a 10% fee of the contracts balance, once a winner is picked the lottery is reset and ready for the next round.
+
+![](img/contract_addr.PNG)
+
+<br /> Made by Antonio Salazar.
